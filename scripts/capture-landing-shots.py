@@ -97,12 +97,11 @@ def main():
                 page.get_by_role("button", name="對話", exact=True).click()
                 time.sleep(0.6)
                 panel_shot(page, "AI Agent", "agent-chat.png")
-                print("agent shots failed:", e)
-                except Exception as e:
+            except Exception as e:
         print("agent shots failed:", e)
 
     # 3. flash order ladder
-    try:
+            try:
         add_panel(page, "閃電下單")
         time.sleep(1)
         en = page.get_by_role("button", name="啟用閃電下單")

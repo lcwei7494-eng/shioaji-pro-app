@@ -149,7 +149,7 @@ def main():
                     locale="zh-TW",
                     timezone_id="Asia/Taipei",
                 )
-                page2 = ctx2.new_page()
+            page2 = ctx2.new_page()
                 page2.goto(BASE)
                 page2.evaluate(
                     "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"

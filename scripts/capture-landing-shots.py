@@ -82,7 +82,7 @@ def main():
                 print("link TXFR1 failed:", e)
 
            # 2. AI Agent panel - skills tab then settings
-    try:
+        try:
         add_panel(page, "AI Agent")
         time.sleep(1)
         try:

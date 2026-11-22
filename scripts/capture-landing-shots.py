@@ -139,7 +139,7 @@ def main():
             # full layout with extras
             page.screenshot(path=str(OUT / "terminal-extras.png"))
         
-                ctx.close()
+            ctx.close()
         
             # 7. light theme — fresh context
                 ctx2 = browser.new_context(

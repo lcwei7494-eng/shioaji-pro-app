@@ -81,23 +81,24 @@ def main():
             except Exception as e:
                 print("link TXFR1 failed:", e)
 
-            # 2. AI Agent panel - skills tab then settings
-            try:
-                add_panel(page, "AI Agent")
-                time.sleep(1)
-                page.get_by_role("button", name="技能", exact=True).click()
-    except Exception:
-        pass
-            time.sleep(0.6)
-            panel_shot(page, "AI Agent", "agent-skills.png")
-            page.get_by_role("button", name="設定", exact=True).click()
-            time.sleep(0.6)
-            panel_shot(page, "AI Agent", "agent-settings.png")
-            page.get_by_role("button", name="對話", exact=True).click()
-            time.sleep(0.6)
-            panel_shot(page, "AI Agent", "agent-chat.png")
-        except Exception as e:
-            print("agent shots failed:", e)
+           # 2. AI Agent panel - skills tab then settings
+    try:
+        add_panel(page, "AI Agent")
+        time.sleep(1)
+        try:
+            page.get_by_role("button", name="技能", exact=True).click()
+        except Exception:
+            pass
+        time.sleep(0.6)
+        panel_shot(page, "AI Agent", "agent-skills.png")
+        page.get_by_role("button", name="設定", exact=True).click()
+        time.sleep(0.6)
+        panel_shot(page, "AI Agent", "agent-settings.png")
+        page.get_by_role("button", name="對話", exact=True).click()
+        time.sleep(0.6)
+        panel_shot(page, "AI Agent", "agent-chat.png")
+    except Exception as e:
+        print("agent shots failed:", e)
 
         # 3. flash order ladder
         try:

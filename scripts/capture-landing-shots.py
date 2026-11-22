@@ -98,7 +98,7 @@ def main():
                 time.sleep(0.6)
                 panel_shot(page, "AI Agent", "agent-chat.png")
             except Exception as e:
-        print("agent shots failed:", e)
+                print("agent shots failed:", e)
             add_panel(page, "閃電下單")
             time.sleep(1)
             en = page.get_by_role("button", name="啟用閃電下單")

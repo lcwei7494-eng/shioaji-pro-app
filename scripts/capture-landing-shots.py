@@ -99,6 +99,20 @@ def main():
                 panel_shot(page, "AI Agent", "agent-chat.png")
             except Exception as e:
                 print("agent shots failed:", e)
+                except Exception as e:
+        print("agent shots failed:", e)
+
+    # 3. flash order ladder
+    try:
+        add_panel(page, "閃電下單")
+        time.sleep(1)
+        en = page.get_by_role("button", name="啟用閃電下單")
+        if en.count() > 0:
+            en.first.click()
+            time.sleep(2)
+        panel_shot(page, "閃電下單", "flash.png", settle=3)
+    except Exception as e:
+        print("flash shot failed:", e)
             add_panel(page, "閃電下單")
             time.sleep(1)
             en = page.get_by_role("button", name="啟用閃電下單")

@@ -150,8 +150,8 @@ def main():
                     timezone_id="Asia/Taipei",
                 )
             page2 = ctx2.new_page()
-                page2.goto(BASE)
-                page2.evaluate(
+            page2.goto(BASE)
+            page2.evaluate(
                     "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
                 )
                 page2.reload()

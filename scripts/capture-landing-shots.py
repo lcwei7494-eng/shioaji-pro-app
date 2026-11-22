@@ -97,7 +97,6 @@ def main():
                 page.get_by_role("button", name="對話", exact=True).click()
                 time.sleep(0.6)
                 panel_shot(page, "AI Agent", "agent-chat.png")
-            except Exception as e:
                 print("agent shots failed:", e)
                 except Exception as e:
         print("agent shots failed:", e)

@@ -160,8 +160,6 @@ def main():
             print("saved terminal-light.png")
             ctx2.close()
             browser.close()
-            ctx2.close()
-                browser.close()
            
 
 if __name__ == "__main__":

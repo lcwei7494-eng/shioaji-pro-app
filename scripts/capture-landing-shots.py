@@ -121,19 +121,19 @@ def main():
                     print("grid shot failed:", e)
         
                 # 5. sector heatmap
-                try:
+            try:
                     add_panel(page, "類股熱力圖")
                     time.sleep(4)
                     panel_shot(page, "類股熱力圖", "heatmap.png")
-                except Exception as e:
+            except Exception as e:
                     print("heatmap shot failed:", e)
         
                 # 6. option payoff
-                try:
+            try:
                     add_panel(page, "選擇權損益圖")
                     time.sleep(2)
                     panel_shot(page, "選擇權損益圖", "payoff.png")
-                except Exception as e:
+            except Exception as e:
                     print("payoff shot failed:", e)
         
                 # full layout with extras

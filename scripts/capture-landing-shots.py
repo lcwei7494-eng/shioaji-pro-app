@@ -154,9 +154,9 @@ def main():
             page2.evaluate(
                     "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
                 )
-                page2.reload()
+            page2.reload()
                 time.sleep(14)
-                page2.screenshot(path=str(OUT / "terminal-light.png"))
+            page2.screenshot(path=str(OUT / "terminal-light.png"))
                 print("saved terminal-light.png")
                 ctx2.close()
                 browser.close()

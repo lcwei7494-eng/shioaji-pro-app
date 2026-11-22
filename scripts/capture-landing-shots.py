@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+subprocess.run([sys.executable, "-m", "playwright", "install","--with-deps","chromium"], check=True)
 from playwright.sync_api import sync_playwright
 
 OUT = Path(__file__).resolve().parent.parent / "docs" / "shots-raw"

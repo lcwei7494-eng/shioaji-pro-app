@@ -57,7 +57,14 @@ def main():
         return
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch()
+            with sync_playwright() as p:
+            import os
+            chrome_path = "/usr/bin/chromium" if os.path.exists("/usr/bin/chromium") else None
+            browser = p.chromium.launch(
+                headless=True,
+                executable_path=chrome_path,
+                args=["--no-sandbox", "--disable-dev-shm-usage"]
+            )
             ctx = browser.new_context(
                 viewport={"width": 1600, "height": 1000},
                 device_scale_factor=2,

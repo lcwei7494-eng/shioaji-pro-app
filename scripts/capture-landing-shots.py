@@ -155,13 +155,13 @@ def main():
                     "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
                 )
             page2.reload()
-                time.sleep(14)
+            time.sleep(14)
             page2.screenshot(path=str(OUT / "terminal-light.png"))
-                print("saved terminal-light.png")
-                ctx2.close()
-                browser.close()
-                ctx2.close()
-                        browser.close()
+            print("saved terminal-light.png")
+            ctx2.close()
+            browser.close()
+            ctx2.close()
+                    browser.close()
            
 
 if __name__ == "__main__":

@@ -8,8 +8,9 @@ from pathlib import Path
 import subprocess
 import sys
 try:
-subprocess.run([sys.executable, "-m", "playwright", "install","--with-deps","chromium"], check=True)
-except Exception:pass
+    subprocess.run([sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"], check=True)
+except Exception:
+    pass
 from playwright.sync_api import sync_playwright
 
 OUT = Path(__file__).resolve().parent.parent / "docs" / "shots-raw"

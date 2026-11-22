@@ -142,7 +142,7 @@ def main():
             ctx.close()
         
             # 7. light theme — fresh context
-                ctx2 = browser.new_context(
+            ctx2 = browser.new_context(
                     viewport={"width": 1600, "height": 1000},
                     device_scale_factor=2,
                     color_scheme="light",

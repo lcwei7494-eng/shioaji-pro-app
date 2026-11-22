@@ -136,12 +136,12 @@ def main():
             except Exception as e:
                     print("payoff shot failed:", e)
         
-                # full layout with extras
-                page.screenshot(path=str(OUT / "terminal-extras.png"))
+            # full layout with extras
+            page.screenshot(path=str(OUT / "terminal-extras.png"))
         
                 ctx.close()
         
-                # 7. light theme — fresh context
+            # 7. light theme — fresh context
                 ctx2 = browser.new_context(
                     viewport={"width": 1600, "height": 1000},
                     device_scale_factor=2,

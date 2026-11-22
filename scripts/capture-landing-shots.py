@@ -161,7 +161,7 @@ def main():
             ctx2.close()
             browser.close()
             ctx2.close()
-                    browser.close()
+                browser.close()
            
 
 if __name__ == "__main__":

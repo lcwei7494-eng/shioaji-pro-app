@@ -55,36 +55,39 @@ def add_panel(page, name):
 def main():
     if sync_playwright is None:
         return
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        ctx = browser.new_context(
-            viewport={"width": 1600, "height": 1000},
-            device_scale_factor=2,
-            color_scheme="dark",
-            locale="zh-TW",
-            timezone_id="Asia/Taipei",
-        )
-        page = ctx.new_page()
-        page.goto(BASE)
-        print("waiting for live data...")
-        time.sleep(16)
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            ctx = browser.new_context(
+                viewport={"width": 1600, "height": 1000},
+                device_scale_factor=2,
+                color_scheme="dark",
+                locale="zh-TW",
+                timezone_id="Asia/Taipei",
+            )
+            page = ctx.new_page()
+            page.goto(BASE)
+            print("waiting for live data...")
+            time.sleep(16)
 
-        # 1. hero — default dark terminal
-        page.screenshot(path=str(OUT / "terminal-dark.png"))
-        print("saved terminal-dark.png")
+            # 1. hero - default dark terminal
+            page.screenshot(path=str(OUT / "terminal-dark.png"))
+            print("saved terminal-dark.png")
 
-        # link TXFR1 so flash/orders target futures
-        try:
-            page.get_by_text("TXFR1", exact=True).first.click()
-            time.sleep(2)
-        except Exception as e:
-            print("link TXFR1 failed:", e)
+            # link TXFR1 so flash/orders target futures
+            try:
+                page.get_by_text("TXFR1", exact=True).first.click()
+                time.sleep(2)
+            except Exception as e:
+                print("link TXFR1 failed:", e)
 
-        # 2. AI Agent panel — skills tab then settings
-        try:
-            add_panel(page, "AI Agent")
-            time.sleep(1)
-            page.get_by_role("button", name="技能", exact=True).click()
+            # 2. AI Agent panel - skills tab then settings
+            try:
+                add_panel(page, "AI Agent")
+                time.sleep(1)
+                page.get_by_role("button", name="技能", exact=True).click()
+    except Exception:
+        pass
             time.sleep(0.6)
             panel_shot(page, "AI Agent", "agent-skills.png")
             page.get_by_role("button", name="設定", exact=True).click()

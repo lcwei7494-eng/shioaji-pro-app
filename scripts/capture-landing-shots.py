@@ -112,56 +112,56 @@ def main():
             except Exception as e:
                 print("flash shot failed:", e)
 
-    # 4. grid orders (網格)
-    try:
-            add_panel(page, "鋪單")
-            time.sleep(1)
-            panel_shot(page, "鋪單", "grid.png")
-        except Exception as e:
-            print("grid shot failed:", e)
-
-        # 5. sector heatmap
-        try:
-            add_panel(page, "類股熱力圖")
-            time.sleep(4)
-            panel_shot(page, "類股熱力圖", "heatmap.png")
-        except Exception as e:
-            print("heatmap shot failed:", e)
-
-        # 6. option payoff
-        try:
-            add_panel(page, "選擇權損益圖")
-            time.sleep(2)
-            panel_shot(page, "選擇權損益圖", "payoff.png")
-        except Exception as e:
-            print("payoff shot failed:", e)
-
-        # full layout with extras
-        page.screenshot(path=str(OUT / "terminal-extras.png"))
-
-        ctx.close()
-
-        # 7. light theme — fresh context
-        ctx2 = browser.new_context(
-            viewport={"width": 1600, "height": 1000},
-            device_scale_factor=2,
-            color_scheme="light",
-            locale="zh-TW",
-            timezone_id="Asia/Taipei",
-        )
-        page2 = ctx2.new_page()
-        page2.goto(BASE)
-        page2.evaluate(
-            "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
-        )
-        page2.reload()
-        time.sleep(14)
-        page2.screenshot(path=str(OUT / "terminal-light.png"))
-        print("saved terminal-light.png")
-        ctx2.close()
-        browser.close()
-        ctx2.close()
+            # 4. grid orders (網格)
+            try:
+                    add_panel(page, "鋪單")
+                    time.sleep(1)
+                    panel_shot(page, "鋪單", "grid.png")
+                except Exception as e:
+                    print("grid shot failed:", e)
+        
+                # 5. sector heatmap
+                try:
+                    add_panel(page, "類股熱力圖")
+                    time.sleep(4)
+                    panel_shot(page, "類股熱力圖", "heatmap.png")
+                except Exception as e:
+                    print("heatmap shot failed:", e)
+        
+                # 6. option payoff
+                try:
+                    add_panel(page, "選擇權損益圖")
+                    time.sleep(2)
+                    panel_shot(page, "選擇權損益圖", "payoff.png")
+                except Exception as e:
+                    print("payoff shot failed:", e)
+        
+                # full layout with extras
+                page.screenshot(path=str(OUT / "terminal-extras.png"))
+        
+                ctx.close()
+        
+                # 7. light theme — fresh context
+                ctx2 = browser.new_context(
+                    viewport={"width": 1600, "height": 1000},
+                    device_scale_factor=2,
+                    color_scheme="light",
+                    locale="zh-TW",
+                    timezone_id="Asia/Taipei",
+                )
+                page2 = ctx2.new_page()
+                page2.goto(BASE)
+                page2.evaluate(
+                    "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
+                )
+                page2.reload()
+                time.sleep(14)
+                page2.screenshot(path=str(OUT / "terminal-light.png"))
+                print("saved terminal-light.png")
+                ctx2.close()
                 browser.close()
+                ctx2.close()
+                        browser.close()
            
 
 if __name__ == "__main__":

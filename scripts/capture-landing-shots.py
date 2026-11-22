@@ -1,31 +1,24 @@
-# scripts/capture-landing-shots.py — capture landing-page screenshots from the
-# live dev app (localhost:5173 + sim server :8080) with Playwright.
-# Run: uv run --with playwright python3 scripts/capture-landing-shots.py
-
+import os
 import sys
 import time
 from pathlib import Path
-import subprocess
-import sys
-try:
-    subprocess.run([sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"], check=True)
-except Exception:
-    pass
+
 try:
     from playwright.sync_api import sync_playwright
 except ImportError:
     sync_playwright = None
-OUT = Path(__file__).resolve().parent.parent / "docs" / "shots-raw"
+
+BASE = os.environ.get("APP_URL", "http://localhost:8501")
+OUT = Path(__file__).resolve().parent.parent / "public" / "landing"
 OUT.mkdir(parents=True, exist_ok=True)
-BASE = "http://localhost:5173"
 
 CLIMB_JS = """
 (el) => {
-  let n = el;
-  while (n && n.parentElement) {
-    const r = n.getBoundingClientRect();
-    if (r.height > 260 && r.width > 300) return n;
-    n = n.parentElement;
+  let cur = el;
+  for (let i = 0; i < 15 && cur; i++) {
+    const r = cur.getBoundingClientRect();
+    if (r.width >= 300 && r.height >= 200) return cur;
+    cur = cur.parentElement;
   }
   return el;
 }
@@ -34,7 +27,6 @@ CLIMB_JS = """
 
 def panel_shot(page, title, fname, settle=2.0):
     """Element-screenshot the panel whose header contains `title`."""
-    # panel headers may append the linked symbol (e.g. 閃電下單 · TXFR1)
     loc = page.get_by_text(title, exact=False).first
     handle = loc.element_handle()
     root = handle.evaluate_handle(CLIMB_JS)
@@ -44,9 +36,8 @@ def panel_shot(page, title, fname, settle=2.0):
 
 
 def add_panel(page, name):
-    page.get_by_role("button", name="＋ 新增面板").click()
+    page.get_by_role("button", name="+ 新增面板").click()
     time.sleep(0.4)
-    # menu item may carry （已存在） suffix
     btn = page.locator("button", has_text=name).last
     btn.click()
     time.sleep(0.8)
@@ -57,15 +48,13 @@ def main():
         return
     try:
         with sync_playwright() as p:
-                with sync_playwright() as p:
-                import os
-                chrome_path = "/usr/bin/chromium" if os.path.exists("/usr/bin/chromium") else None
-                browser = p.chromium.launch(
-                    headless=True,
-                    executable_path=chrome_path,
-                    args=["--no-sandbox", "--disable-dev-shm-usage"]
-                )
-                ctx = browser.new_context(
+            chrome_path = "/usr/bin/chromium" if os.path.exists("/usr/bin/chromium") else None
+            browser = p.chromium.launch(
+                headless=True,
+                executable_path=chrome_path,
+                args=["--no-sandbox", "--disable-dev-shm-usage"],
+            )
+            ctx = browser.new_context(
                 viewport={"width": 1600, "height": 1000},
                 device_scale_factor=2,
                 color_scheme="dark",
@@ -88,7 +77,7 @@ def main():
             except Exception as e:
                 print("link TXFR1 failed:", e)
 
-          # 2. AI Agent panel - skills tab then settings
+            # 2. AI Agent panel - skills tab then settings
             try:
                 add_panel(page, "AI Agent")
                 time.sleep(1)
@@ -107,7 +96,7 @@ def main():
             except Exception as e:
                 print("agent shots failed:", e)
 
-    # 3. flash order ladder
+            # 3. flash order ladder
             try:
                 add_panel(page, "閃電下單")
                 time.sleep(1)
@@ -121,46 +110,46 @@ def main():
 
             # 4. grid orders (網格)
             try:
-                    add_panel(page, "鋪單")
-                    time.sleep(1)
-                    panel_shot(page, "鋪單", "grid.png")
+                add_panel(page, "網格")
+                time.sleep(1)
+                panel_shot(page, "網格", "grid.png")
             except Exception as e:
-                    print("grid shot failed:", e)
-        
-                # 5. sector heatmap
+                print("grid shot failed:", e)
+
+            # 5. sector heatmap
             try:
-                    add_panel(page, "類股熱力圖")
-                    time.sleep(4)
-                    panel_shot(page, "類股熱力圖", "heatmap.png")
+                add_panel(page, "類股熱力圖")
+                time.sleep(1)
+                panel_shot(page, "類股熱力圖", "heatmap.png")
             except Exception as e:
-                    print("heatmap shot failed:", e)
-        
-                # 6. option payoff
+                print("heatmap shot failed:", e)
+
+            # 6. option payoff
             try:
-                    add_panel(page, "選擇權損益圖")
-                    time.sleep(2)
-                    panel_shot(page, "選擇權損益圖", "payoff.png")
+                add_panel(page, "選擇權損益圖")
+                time.sleep(2)
+                panel_shot(page, "選擇權損益圖", "payoff.png")
             except Exception as e:
-                    print("payoff shot failed:", e)
-        
+                print("payoff shot failed:", e)
+
             # full layout with extras
             page.screenshot(path=str(OUT / "terminal-extras.png"))
-        
+
             ctx.close()
-        
-            # 7. light theme — fresh context
+
+            # 7. light theme - fresh context
             ctx2 = browser.new_context(
-                    viewport={"width": 1600, "height": 1000},
-                    device_scale_factor=2,
-                    color_scheme="light",
-                    locale="zh-TW",
-                    timezone_id="Asia/Taipei",
-                )
+                viewport={"width": 1600, "height": 1000},
+                device_scale_factor=2,
+                color_scheme="light",
+                locale="zh-TW",
+                timezone_id="Asia/Taipei",
+            )
             page2 = ctx2.new_page()
             page2.goto(BASE)
             page2.evaluate(
-                    "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light',convention:'tw',fontScale:1}))"
-                )
+                "localStorage.setItem('sj-pro-theme', JSON.stringify({mode:'light'}))"
+            )
             page2.reload()
             time.sleep(14)
             page2.screenshot(path=str(OUT / "terminal-light.png"))
@@ -168,7 +157,7 @@ def main():
             ctx2.close()
             browser.close()
     finally:
-            pass
+        pass
 
 
 if __name__ == "__main__":

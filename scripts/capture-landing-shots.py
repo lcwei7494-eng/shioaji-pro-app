@@ -53,6 +53,8 @@ def add_panel(page, name):
 
 
 def main():
+    if sync_playwright is None:
+        return
     with sync_playwright() as p:
         browser = p.chromium.launch()
         ctx = browser.new_context(

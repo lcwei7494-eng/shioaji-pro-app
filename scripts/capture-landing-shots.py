@@ -117,7 +117,7 @@ def main():
                     add_panel(page, "鋪單")
                     time.sleep(1)
                     panel_shot(page, "鋪單", "grid.png")
-                except Exception as e:
+            except Exception as e:
                     print("grid shot failed:", e)
         
                 # 5. sector heatmap
